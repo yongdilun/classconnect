@@ -1,0 +1,44 @@
+/* Login page specific styles */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+}
+
+.login-form-container {
+  max-width: 28rem;
+  width: 100%;
+  padding: var(--spacing-10);
+  background-color: white;
+  border-radius: calc(var(--border-radius) * 3);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.login-header {
+  text-align: center;
+}
+
+.login-title {
+  margin-top: var(--spacing-6);
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.login-error {
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: var(--color-danger);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--border-radius);
+  position: relative;
+  margin-bottom: var(--spacing-4);
+}
+
+.login-form {
+  margin-top: var(--spacing-8);
+}
+
+/* Form styles are now in global.css */
