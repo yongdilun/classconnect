@@ -1,0 +1,255 @@
+.student-grades-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.student-grades-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.back-button {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #6264A7;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.student-info h1 {
+  font-size: 2rem;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.student-info h2 {
+  font-size: 1.25rem;
+  color: #666;
+  font-weight: 500;
+  margin: 0;
+}
+
+.grade-summary {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.grade-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #6264A7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grade-percentage {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.grade-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.grade-letter {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.grade-points {
+  font-size: 1rem;
+  color: #666;
+}
+
+.assignments-list {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.assignments-list h3 {
+  margin: 0;
+  padding: 1.5rem;
+  font-size: 1.25rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.assignments-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.assignments-table th, .assignments-table td {
+  padding: 1rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.assignments-table th {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.assignment-row:hover {
+  background-color: #f5f5f5;
+}
+
+.assignment-title {
+  font-weight: 500;
+  color: #333;
+}
+
+.assignment-due-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-not_submitted {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.status-submitted {
+  background-color: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-graded {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.grade-display {
+  display: flex;
+  flex-direction: column;
+}
+
+.grade-value {
+  font-weight: 500;
+  color: #333;
+}
+
+.grade-percentage {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.no-grade {
+  color: #999;
+}
+
+.view-submission-button {
+  background-color: transparent;
+  border: 1px solid #6264A7;
+  color: #6264A7;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.view-submission-button:hover {
+  background-color: #6264A7;
+  color: white;
+}
+
+.no-assignments-message {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.student-grades-loading, .student-grades-error, .student-grades-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #6264A7;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.student-grades-error h2, .student-grades-empty h2 {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+}
+
+.student-grades-error button, .student-grades-empty button {
+  background-color: #6264A7;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .student-grades-container {
+    padding: 1rem;
+  }
+  
+  .grade-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .assignments-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

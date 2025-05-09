@@ -1,3 +1,6 @@
+-- ClassConnect Database Schema
+-- Updated to match current implementation while preserving all tables
+
 -- Use the database
 USE ClassConnect;
 GO
@@ -33,6 +36,40 @@ CREATE TABLE teachers (
     FOREIGN KEY (teacher_id) REFERENCES users(user_id)
 );
 
+-- Teacher Profiles Table (For our current implementation)
+CREATE TABLE teacher_profiles (
+    profile_id INT PRIMARY KEY IDENTITY(1,1),
+    user_id INT NOT NULL UNIQUE,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    department VARCHAR(100),
+    hire_date DATE DEFAULT GETDATE(),
+    profile_picture VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- Student Profiles Table (For our current implementation)
+CREATE TABLE student_profiles (
+    profile_id INT PRIMARY KEY IDENTITY(1,1),
+    user_id INT NOT NULL UNIQUE,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    grade_level VARCHAR(50),
+    enrollment_date DATE DEFAULT GETDATE(),
+    profile_picture VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- Password Reset Tokens Table
+CREATE TABLE password_resets (
+    reset_id INT PRIMARY KEY IDENTITY(1,1),
+    user_id INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 -- Classes Table
 CREATE TABLE classes (
     class_id INT PRIMARY KEY IDENTITY(1,1),
@@ -42,32 +79,32 @@ CREATE TABLE classes (
     subject VARCHAR(100),
     created_date DATETIME NOT NULL DEFAULT GETDATE(),
     is_archived BIT NOT NULL DEFAULT 0,
-    theme_color VARCHAR(20),
+    theme_color VARCHAR(20) DEFAULT 'blue',
     creator_id INT NOT NULL,
-    FOREIGN KEY (creator_id) REFERENCES teachers(teacher_id)
+    FOREIGN KEY (creator_id) REFERENCES users(user_id)
 );
 
 -- Student-Class Enrollment Table
 CREATE TABLE class_enrollments (
     enrollment_id INT PRIMARY KEY IDENTITY(1,1),
-    student_id INT NOT NULL,
+    user_id INT NOT NULL,
     class_id INT NOT NULL,
     enrollment_date DATETIME NOT NULL DEFAULT GETDATE(),
     is_active BIT NOT NULL DEFAULT 1,
-    UNIQUE (student_id, class_id),
-    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    UNIQUE (user_id, class_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (class_id) REFERENCES classes(class_id)
 );
 
 -- Teacher-Class Assignment Table
 CREATE TABLE class_teachers (
     class_teacher_id INT PRIMARY KEY IDENTITY(1,1),
-    teacher_id INT NOT NULL,
+    user_id INT NOT NULL,
     class_id INT NOT NULL,
     is_owner BIT NOT NULL DEFAULT 0,
     added_date DATETIME NOT NULL DEFAULT GETDATE(),
-    UNIQUE (teacher_id, class_id),
-    FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),
+    UNIQUE (user_id, class_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (class_id) REFERENCES classes(class_id)
 );
 
@@ -94,7 +131,7 @@ CREATE TABLE assignments (
     created_by INT NOT NULL,
     FOREIGN KEY (class_id) REFERENCES classes(class_id),
     FOREIGN KEY (type_id) REFERENCES assignment_types(type_id),
-    FOREIGN KEY (created_by) REFERENCES teachers(teacher_id)
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
 );
 
 -- Assignment Materials Table
@@ -113,7 +150,7 @@ CREATE TABLE assignment_materials (
 CREATE TABLE submissions (
     submission_id INT PRIMARY KEY IDENTITY(1,1),
     assignment_id INT NOT NULL,
-    student_id INT NOT NULL,
+    user_id INT NOT NULL,
     submission_date DATETIME NOT NULL DEFAULT GETDATE(),
     is_late BIT NOT NULL DEFAULT 0,
     status VARCHAR(20) NOT NULL DEFAULT 'submitted' CHECK (status IN ('draft', 'submitted', 'returned', 'graded')),
@@ -121,10 +158,10 @@ CREATE TABLE submissions (
     feedback TEXT,
     graded_by INT,
     graded_date DATETIME,
-    UNIQUE (assignment_id, student_id),
+    UNIQUE (assignment_id, user_id),
     FOREIGN KEY (assignment_id) REFERENCES assignments(assignment_id),
-    FOREIGN KEY (student_id) REFERENCES students(student_id),
-    FOREIGN KEY (graded_by) REFERENCES teachers(teacher_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (graded_by) REFERENCES users(user_id)
 );
 
 -- Submission Files Table
@@ -150,7 +187,7 @@ CREATE TABLE announcements (
     scheduled_date DATETIME,
     is_published BIT NOT NULL DEFAULT 1,
     FOREIGN KEY (class_id) REFERENCES classes(class_id),
-    FOREIGN KEY (created_by) REFERENCES teachers(teacher_id)
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
 );
 
 -- Comments Table
@@ -182,7 +219,7 @@ CREATE TABLE class_materials (
     created_date DATETIME NOT NULL DEFAULT GETDATE(),
     folder_path VARCHAR(255),
     FOREIGN KEY (class_id) REFERENCES classes(class_id),
-    FOREIGN KEY (created_by) REFERENCES teachers(teacher_id)
+    FOREIGN KEY (created_by) REFERENCES users(user_id)
 );
 
 -- Notifications Table

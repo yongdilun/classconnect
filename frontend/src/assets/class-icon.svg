@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Class Icon</title>
+    <g id="Class-Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M12,1 L20,5.5 L20,18.5 L12,23 L4,18.5 L4,5.5 L12,1 Z M12,3.311 L6,7.02 L6,16.98 L12,20.689 L18,16.98 L18,7.02 L12,3.311 Z M12,16 C10.8954305,16 10,15.1045695 10,14 C10,12.8954305 10.8954305,12 12,12 C13.1045695,12 14,12.8954305 14,14 C14,15.1045695 13.1045695,16 12,16 Z M12,10 C10.8954305,10 10,9.1045695 10,8 C10,6.8954305 10.8954305,6 12,6 C13.1045695,6 14,6.8954305 14,8 C14,9.1045695 13.1045695,10 12,10 Z" id="Shape" fill="#6264A7" fill-rule="nonzero"></path>
+    </g>
+</svg>

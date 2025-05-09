@@ -22,6 +22,10 @@
   --spacing-8: 2rem;
   --spacing-10: 2.5rem;
   --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
 }
 
 /* Global Reset */
@@ -227,6 +231,22 @@ a:hover {
   font-size: 0.875rem;
 }
 
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
 /* Utilities */
 .text-center {
   text-align: center;
@@ -337,11 +357,11 @@ a:hover {
   .sm\:block {
     display: block;
   }
-  
+
   .sm\:hidden {
     display: none;
   }
-  
+
   .sm\:flex {
     display: flex;
   }

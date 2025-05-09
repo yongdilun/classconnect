@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/yongdilun/classconnect-backend/utils"
 )
 
@@ -36,7 +35,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Extract user ID from token
+		// Extract user ID and role from token
 		userID, err := utils.ExtractUserID(token)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
@@ -44,8 +43,17 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Set user ID and token in context
+		role, err := utils.ExtractUserRole(token)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
+			c.Abort()
+			return
+		}
+
+		// Set user ID, role, and token in context
 		c.Set("userID", userID)
+		c.Set("userId", userID) // Add this line to support both naming conventions
+		c.Set("userRole", role)
 		c.Set("token", token)
 		c.Next()
 	}
@@ -54,32 +62,18 @@ func AuthMiddleware() gin.HandlerFunc {
 // RoleMiddleware checks if the user has the required role
 func RoleMiddleware(roles ...string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Get the token from context (set by AuthMiddleware)
-		tokenInterface, exists := c.Get("token")
+		// Get the user role from context (set by AuthMiddleware)
+		userRole, exists := c.Get("userRole")
 		if !exists {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "Token not found in context"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "User role not found in context"})
 			c.Abort()
 			return
 		}
 
-		token, ok := tokenInterface.(*jwt.Token)
+		// Convert to string
+		userRoleStr, ok := userRole.(string)
 		if !ok {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse token"})
-			c.Abort()
-			return
-		}
-
-		// Extract role from token claims
-		claims, ok := token.Claims.(jwt.MapClaims)
-		if !ok {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse token claims"})
-			c.Abort()
-			return
-		}
-
-		userRole, ok := claims["role"].(string)
-		if !ok {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Role not found in token"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse user role"})
 			c.Abort()
 			return
 		}
@@ -87,7 +81,7 @@ func RoleMiddleware(roles ...string) gin.HandlerFunc {
 		// Check if user role is in the allowed roles
 		roleAllowed := false
 		for _, role := range roles {
-			if userRole == role {
+			if userRoleStr == role {
 				roleAllowed = true
 				break
 			}
