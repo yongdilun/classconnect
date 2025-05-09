@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+// Import styles for the loading spinner
 import './ProtectedRoute.css';
 
 interface ProtectedRouteProps {

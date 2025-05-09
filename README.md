@@ -97,32 +97,62 @@ ClassConnect is a comprehensive Google Classroom-like application designed to fa
    go mod download
    ```
 
+4. Set up SQL Server:
+   - Install Microsoft SQL Server (Developer or Express edition is fine for development)
+   - Enable both Windows Authentication and SQL Server Authentication modes
+   - Create a database named `ClassConnect` or use the name specified in your `.env` file
+   - If using SQL Server Authentication:
+     - Ensure the 'sa' account is enabled and has a password
+     - Update the `.env` file with the correct credentials
+   - If using Windows Authentication:
+     - Set `DB_INTEGRATED_SECURITY=true` in your `.env` file
+     - Ensure your Windows user has appropriate permissions
+
 ### Environment Configuration
 
-Create a `.env` file in the backend directory with the following content:
+1. **Backend Configuration**:
 
-```env
-# Database Configuration
-DB_USER=sa
-DB_PASSWORD=YourPassword
-DB_HOST=localhost
-DB_PORT=1433
-DB_NAME=ClassConnect
+   Copy the `.env.example` file to create a new `.env` file in the backend directory:
 
-# Server Configuration
-PORT=8080
-GIN_MODE=debug  # Use 'release' for production
+   ```bash
+   cd backend
+   cp .env.example .env
+   ```
 
-# JWT Configuration
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRATION=72h
-```
+   Then edit the `.env` file with your specific configuration:
 
-Create a `.env` file in the frontend directory:
+   ```env
+   # Database Configuration
+   DB_USER=sa
+   DB_PASSWORD=YourPassword  # Leave empty if using Windows Authentication
+   DB_HOST=localhost
+   DB_PORT=1433
+   DB_NAME=ClassConnect
+   DB_INTEGRATED_SECURITY=false  # Set to 'true' to use Windows Authentication
 
-```env
-VITE_API_URL=http://localhost:8080/api
-```
+   # Server Configuration
+   PORT=8080
+   GIN_MODE=debug  # Use 'release' for production
+
+   # JWT Configuration
+   JWT_SECRET=your_jwt_secret_key  # Use a strong random string in production
+   JWT_EXPIRATION=72h
+   ```
+
+2. **Frontend Configuration**:
+
+   Create a `.env` file in the frontend directory:
+
+   ```bash
+   cd frontend
+   touch .env
+   ```
+
+   Add the following content:
+
+   ```env
+   VITE_API_URL=http://localhost:8080/api
+   ```
 
 ## 🚀 Running the Application
 
@@ -291,14 +321,30 @@ ClassConnect supports the following user roles:
 1. **Database Connection Errors**
    - Verify your database credentials in the `.env` file
    - Ensure SQL Server is running and accessible
+   - For SQL Server Authentication issues:
+     - Check if the 'sa' account is enabled and has the correct password
+     - Verify that SQL Server is configured to allow SQL Server Authentication
+     - Try using Windows Authentication by setting `DB_INTEGRATED_SECURITY=true` in your `.env` file
+   - For Windows Authentication issues:
+     - Ensure your Windows user has access to the SQL Server instance
+     - Set `DB_INTEGRATED_SECURITY=true` in your `.env` file
+     - Leave `DB_PASSWORD` empty when using Windows Authentication
 
 2. **API Connection Issues**
    - Check that the backend server is running
    - Verify the `VITE_API_URL` in the frontend `.env` file
+   - Check for CORS issues if frontend and backend are on different domains/ports
 
 3. **Authentication Problems**
    - Clear browser localStorage and try logging in again
    - Check that JWT_SECRET is properly set
+   - Verify that the token expiration time is appropriate
+
+4. **SQL Server Setup**
+   - If you're new to SQL Server, make sure it's properly installed and configured
+   - Enable TCP/IP in SQL Server Configuration Manager
+   - Ensure the SQL Server Browser service is running
+   - Configure firewall to allow SQL Server connections
 
 ## 🤝 Contributing
 
