@@ -110,6 +110,14 @@ ClassConnect is a comprehensive Google Classroom-like application designed to fa
 
 ### Environment Configuration
 
+The project includes several `.env.example` files to help you set up your environment:
+
+- `.env.example` in the project root: Contains all environment variables for both frontend and backend
+- `backend/.env.example`: Contains backend-specific environment variables
+- `frontend/.env.example`: Contains frontend-specific environment variables
+
+Follow these steps to configure your environment:
+
 1. **Backend Configuration**:
 
    Copy the `.env.example` file to create a new `.env` file in the backend directory:
@@ -141,17 +149,20 @@ ClassConnect is a comprehensive Google Classroom-like application designed to fa
 
 2. **Frontend Configuration**:
 
-   Create a `.env` file in the frontend directory:
+   Copy the `.env.example` file to create a new `.env` file in the frontend directory:
 
    ```bash
    cd frontend
-   touch .env
+   cp .env.example .env
    ```
 
-   Add the following content:
+   Then edit the `.env` file with your specific configuration:
 
    ```env
+   # API URL for connecting to the backend
    VITE_API_URL=http://localhost:8080/api
+
+   # Uncomment and modify any other settings as needed for your environment
    ```
 
 ## 🚀 Running the Application
